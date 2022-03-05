@@ -58,7 +58,7 @@ export function activate(context: vscode.ExtensionContext) {
                     ignoreFocusOut: true,
                     matchOnDescription: true,
                     matchOnDetail: true,
-                    placeHolder: '请选择一个转换的类型2',
+                    placeHolder: '请选择一个转换的类型',
                 });
             const result = util.handleChangeCase(word, changeCaseType as ChangeCaseType);
             
