@@ -1,0 +1,52 @@
+{
+    "name": "texteditor-util",
+    "displayName": "文本处理小工具",
+    "description": "文本处理小工具",
+    "version": "0.0.1",
+    "publisher": "haohailiang",
+    "private": true,
+    "license": "MIT",
+    "icon": "images/text.png",
+    "repository": "https://github.com/haohailiang/vscode-texteditor-util",
+    "bugs": "https://github.com/haohailiang/vscode-texteditor-util/issues",
+    "engines": {
+        "vscode": "^1.32.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:extension.hookState",
+        "onCommand:extension.changeCase"
+    ],
+    "main": "./out/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.hookState",
+                "title": "hook state切换"
+            },
+            {
+                "command": "extension.changeCase",
+                "title": "change case"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "lint": "eslint . --ext .ts,.tsx",
+        "watch": "tsc -watch -p ./"
+    },
+    "devDependencies": {
+        "@types/node": "^12.12.0",
+        "@types/vscode": "^1.32.0",
+        "@typescript-eslint/eslint-plugin": "^4.16.0",
+        "@typescript-eslint/parser": "^4.16.0",
+        "eslint": "^7.21.0",
+        "typescript": "^4.5.5"
+    },
+    "dependencies": {
+        "change-case": "^3.0.0"
+    }
+}
