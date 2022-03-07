@@ -30,9 +30,25 @@ export function activate(context: vscode.ExtensionContext) {
                 });
             
             if (hookState) {
-                editor.edit(editBuilder => {
-                    editBuilder.replace(selection, hookState);
-                });
+                if (hookState.includes(' ↑')) {
+                    const searchText = hookState.replace(' ↑', '');
+                    await vscode.env.clipboard.writeText(searchText);
+                    await vscode.commands.executeCommand("actions.find");
+                    await vscode.commands.executeCommand("editor.action.selectAll");
+                    await vscode.commands.executeCommand("execPaste");
+                    await vscode.commands.executeCommand("search.action.focusPreviousSearchResult");
+                } else if (hookState.includes(' ↓')) {
+                    const searchText = hookState.replace(' ↓', '');
+                    await vscode.env.clipboard.writeText(searchText);
+                    await vscode.commands.executeCommand("actions.find");
+                    await vscode.commands.executeCommand("editor.action.selectAll");
+                    await vscode.commands.executeCommand("execPaste");
+                    await vscode.commands.executeCommand("search.action.focusNextSearchResult");
+                } else {
+                    editor.edit(editBuilder => {
+                        editBuilder.replace(selection, hookState);
+                    });
+                }
             }
         }
     });

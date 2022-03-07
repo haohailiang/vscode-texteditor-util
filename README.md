@@ -10,7 +10,7 @@ changeCase
 ![changeCase](images/changeCase.png)  
 
 ## 快捷键
-hook state `cmd+k cmd+r`  
+hook state `ctrl+h`  
 changeCase `ctrl+q`
 
 

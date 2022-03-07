@@ -13,17 +13,27 @@ import { ChangeCaseType } from './typing';
 * @returns hook
 */
 const handleHookState = (text: string): string[] => {
-    const retArr = ['', ''];
+    const retArr = ['', '', '1-上一个', '1-下一个', '2-上一个', '2-下一个'];
 
     if (/^set[A-Z]/.test(text)) {
         const tempText = text.slice(3);
         const first = tempText.slice(0, 1).toLowerCase() + tempText.slice(1);
         retArr.splice(0, 1, first);
         retArr.splice(1, 1, text);
+
+        retArr.splice(2, 1, first + ' ↑');
+        retArr.splice(3, 1, first + ' ↓');
+        retArr.splice(4, 1, text + ' ↑');
+        retArr.splice(5, 1, text + ' ↓');
     } else {
         const second = 'set' + text.slice(0, 1).toUpperCase() + text.slice(1);
         retArr.splice(0, 1, text);
         retArr.splice(1, 1, second);
+
+		retArr.splice(2, 1, text + ' ↑');
+        retArr.splice(3, 1, text + ' ↓');
+        retArr.splice(4, 1, second + ' ↑');
+        retArr.splice(5, 1, second + ' ↓');
     }
 
     return retArr;
