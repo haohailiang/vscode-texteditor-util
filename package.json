@@ -2,7 +2,7 @@
     "name": "texteditor-util",
     "displayName": "text util",
     "description": "文本处理小工具",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "publisher": "haohailiang",
     "private": true,
     "license": "MIT",
@@ -16,15 +16,15 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.hookState",
+        "onCommand:extension.toggleState",
         "onCommand:extension.changeCase"
     ],
     "main": "./out/extension",
     "contributes": {
         "commands": [
             {
-                "command": "extension.hookState",
-                "title": "hook state切换"
+                "command": "extension.toggleState",
+                "title": "toggle state切换"
             },
             {
                 "command": "extension.changeCase",

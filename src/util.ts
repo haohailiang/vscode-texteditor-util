@@ -12,27 +12,15 @@ import { ChangeCaseType } from './typing';
 * @param text 源文本
 * @returns hook
 */
-const handleHookState = (text: string): string[] => {
-    const retArr = ['', '', '3 查找', '4 查找'];
-
+const toggleState = (text: string): string => {
     if (/^set[A-Z]/.test(text)) {
         const tempText = text.slice(3);
         const first = tempText.slice(0, 1).toLowerCase() + tempText.slice(1);
-        retArr.splice(0, 1, '1 ' + first);
-        retArr.splice(1, 1, '2 ' + text);
-
-        retArr.splice(2, 1, '3 ' + first + ' 查找');
-        retArr.splice(3, 1, '4 ' + text + ' 查找');
-    } else {
-        const second = 'set' + text.slice(0, 1).toUpperCase() + text.slice(1);
-        retArr.splice(0, 1, '1 ' + text);
-        retArr.splice(1, 1, '2 ' + second);
-
-		retArr.splice(2, 1, '3 ' + text + ' 查找');
-        retArr.splice(3, 1, '4 ' + second + ' 查找');
+        return first;
     }
 
-    return retArr;
+    const second = 'set' + text.slice(0, 1).toUpperCase() + text.slice(1);
+    return second;
 };
 
 /**
@@ -69,6 +57,6 @@ const handleChangeCase = (text: string, type: ChangeCaseType): string => {
 };
 
 export default {
-    handleHookState,
+    toggleState,
     handleChangeCase,
 };

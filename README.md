@@ -4,13 +4,13 @@
 2. change case转化
 
 ## Demo
-hookState  
-![hookState](images/hookState.png)  
+toggleState  
+![toggleState](images/toggleState.png)  
 changeCase  
 ![changeCase](images/changeCase.png)  
 
 ## 快捷键
-hook state `ctrl+h`  
+toggle state `ctrl+cmd+f`  
 changeCase `ctrl+q`
 
 
