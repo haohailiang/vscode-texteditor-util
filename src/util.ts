@@ -28,35 +28,35 @@ const toggleState = (text: string): string => {
  * @param text 源文本
  * @param type 转换类型
  */
-const handleChangeCase = (text: string, type: ChangeCaseType): string => {
-    if (type === '1_camel') {
-        return changeCase.camel(text);
-    }
+// const handleChangeCase = (text: string, type: ChangeCaseType): string => {
+//     if (type === '1_camel') {
+//         return changeCase.camel(text);
+//     }
 
-    if (type === '2_constant') {
-        return changeCase.constant(text);
-    }
+//     if (type === '2_constant') {
+//         return changeCase.constant(text);
+//     }
 
-    if (type === '3_kebab') {
-        return changeCase.param(text);
-    }
+//     if (type === '3_kebab') {
+//         return changeCase.param(text);
+//     }
 
-    if (type === '4_pascal') {
-        return changeCase.pascal(text);
-    }
+//     if (type === '4_pascal') {
+//         return changeCase.pascal(text);
+//     }
 
-    if (type === '5_lower') {
-        return changeCase.lower(text);
-    }
+//     if (type === '5_lower') {
+//         return changeCase.lower(text);
+//     }
 
-    if (type === '6_upper') {
-        return changeCase.upper(text);
-    }
+//     if (type === '6_upper') {
+//         return changeCase.upper(text);
+//     }
     
-    return text;
-};
+//     return text;
+// };
 
 export default {
     toggleState,
-    handleChangeCase,
+    // handleChangeCase,
 };

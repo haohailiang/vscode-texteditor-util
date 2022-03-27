@@ -2,7 +2,7 @@
     "name": "texteditor-util",
     "displayName": "text util",
     "description": "文本处理小工具",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "publisher": "haohailiang",
     "private": true,
     "license": "MIT",
@@ -17,7 +17,11 @@
     ],
     "activationEvents": [
         "onCommand:extension.toggleState",
-        "onCommand:extension.changeCase"
+        "onCommand:extension.importGrammer1",
+        "onCommand:extension.importGrammer2",
+        "onCommand:extension.importGrammer3",
+        "onCommand:extension.importGrammer4",
+        "onCommand:extension.requireGrammer"
     ],
     "main": "./out/extension",
     "contributes": {
@@ -27,8 +31,24 @@
                 "title": "toggle state切换"
             },
             {
-                "command": "extension.changeCase",
-                "title": "change case"
+                "command": "extension.importGrammer1",
+                "title": "import 引入方式[component]"
+            },
+            {
+                "command": "extension.importGrammer2",
+                "title": "import 引入方式[container]"
+            },
+            {
+                "command": "extension.importGrammer3",
+                "title": "import 引入方式[type]"
+            },
+            {
+                "command": "extension.importGrammer4",
+                "title": "import 引入方式[antd]"
+            },
+            {
+                "command": "extension.requireGrammer",
+                "title": "require 引入方式"
             }
         ]
     },
@@ -47,6 +67,6 @@
         "typescript": "^4.5.5"
     },
     "dependencies": {
-        "change-case": "^3.0.0"
+        "change-case": "^4.1.2"
     }
 }
