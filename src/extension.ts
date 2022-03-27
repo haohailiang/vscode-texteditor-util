@@ -64,7 +64,8 @@ export function activate(context: vscode.ExtensionContext) {
 
         if (pathOrModuleName) {
             const pascalName = changeCase.pascalCase(pathOrModuleName);
-            const insertStr = `import ${pascalName} from '../${pascalName}';`;
+            const pathName = changeCase.paramCase(pathOrModuleName);
+            const insertStr = `import ${pascalName} from '../${pathName}';`;
     
             if (editor) {
                 editor.edit(editBuilder => {
@@ -79,10 +80,11 @@ export function activate(context: vscode.ExtensionContext) {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
         const pathOrModuleName = await vscode.env.clipboard.readText();
+        const pathName = changeCase.paramCase(pathOrModuleName);
 
         if (pathOrModuleName) {
             const pascalName = changeCase.pascalCase(pathOrModuleName);
-            const insertStr = `import ${pascalName} from '../../container/${pascalName}';`;
+            const insertStr = `import ${pascalName} from '../../container/${pathName}';`;
     
             if (editor) {
                 editor.edit(editBuilder => {
@@ -126,7 +128,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-	// import的引入方式[icon]
+    // import的引入方式[icon]
     const disposable7 = vscode.commands.registerCommand('extension.importGrammer5', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
@@ -143,8 +145,26 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-	// import的引入方式[icon-diy]
+    // import的引入方式[icon-diy]
     const disposable8 = vscode.commands.registerCommand('extension.importGrammer6', async function () {
+        // Get the active text editor
+        const editor = vscode.window.activeTextEditor;
+        const packageName = await vscode.env.clipboard.readText();
+        const camelName = changeCase.camelCase(packageName);
+
+        if (camelName) {
+            const insertStr = `import ${camelName} from '${packageName}';`;
+    
+            if (editor) {
+                editor.edit(editBuilder => {
+                    editBuilder.insert(editor.selection.active, insertStr);
+                });
+            }
+        }
+    });
+
+    // import的引入方式[quokkajs]
+    const disposable9 = vscode.commands.registerCommand('extension.importGrammer7', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
         const iconClazz = await vscode.env.clipboard.readText();
@@ -161,7 +181,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     // require的引入方式[给quokkajs使用]
-    const disposable9 = vscode.commands.registerCommand('extension.requireGrammer', async function () {
+    const disposable10 = vscode.commands.registerCommand('extension.requireGrammer', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
         const pathOrModuleName = await vscode.env.clipboard.readText();
@@ -187,4 +207,5 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(disposable7);
     context.subscriptions.push(disposable8);
     context.subscriptions.push(disposable9);
+    context.subscriptions.push(disposable10);
 }

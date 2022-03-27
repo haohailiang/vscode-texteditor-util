@@ -2,7 +2,7 @@
     "name": "texteditor-util",
     "displayName": "text util",
     "description": "文本处理小工具",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "publisher": "haohailiang",
     "private": true,
     "license": "MIT",
@@ -23,6 +23,7 @@
         "onCommand:extension.importGrammer4",
         "onCommand:extension.importGrammer5",
         "onCommand:extension.importGrammer6",
+        "onCommand:extension.importGrammer7",
         "onCommand:extension.requireGrammer"
     ],
     "main": "./out/extension",
@@ -59,6 +60,10 @@
             {
                 "command": "extension.requireGrammer",
                 "title": "require 引入方式"
+            },
+            {
+                "command": "extension.importGrammer7",
+                "title": "quokka 引入方式"
             }
         ]
     },
