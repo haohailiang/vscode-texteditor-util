@@ -2,7 +2,7 @@
     "name": "texteditor-util",
     "displayName": "text util",
     "description": "文本处理小工具",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "publisher": "haohailiang",
     "private": true,
     "license": "MIT",
@@ -21,6 +21,8 @@
         "onCommand:extension.importGrammer2",
         "onCommand:extension.importGrammer3",
         "onCommand:extension.importGrammer4",
+        "onCommand:extension.importGrammer5",
+        "onCommand:extension.importGrammer6",
         "onCommand:extension.requireGrammer"
     ],
     "main": "./out/extension",
@@ -45,6 +47,14 @@
             {
                 "command": "extension.importGrammer4",
                 "title": "import 引入方式[antd]"
+            },
+            {
+                "command": "extension.importGrammer5",
+                "title": "import 引入方式[icon]"
+            },
+            {
+                "command": "extension.importGrammer6",
+                "title": "import 引入方式[icon-diy]"
             },
             {
                 "command": "extension.requireGrammer",

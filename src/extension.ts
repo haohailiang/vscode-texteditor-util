@@ -126,8 +126,42 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
+	// import的引入方式[icon]
+    const disposable7 = vscode.commands.registerCommand('extension.importGrammer5', async function () {
+        // Get the active text editor
+        const editor = vscode.window.activeTextEditor;
+        const iconName = await vscode.env.clipboard.readText();
+
+        if (iconName) {
+            const insertStr = `import { iconName } from '@ant-design/icons';`;
+    
+            if (editor) {
+                editor.edit(editBuilder => {
+                    editBuilder.insert(editor.selection.active, insertStr);
+                });
+            }
+        }
+    });
+
+	// import的引入方式[icon-diy]
+    const disposable8 = vscode.commands.registerCommand('extension.importGrammer6', async function () {
+        // Get the active text editor
+        const editor = vscode.window.activeTextEditor;
+        const iconClazz = await vscode.env.clipboard.readText();
+
+        if (iconClazz) {
+            const insertStr = `import Iconfont from '@/components/iconfont';\n<Iconfont type="${iconClazz}" className="todo" />`;
+    
+            if (editor) {
+                editor.edit(editBuilder => {
+                    editBuilder.insert(editor.selection.active, insertStr);
+                });
+            }
+        }
+    });
+
     // require的引入方式[给quokkajs使用]
-    const disposable7 = vscode.commands.registerCommand('extension.requireGrammer', async function () {
+    const disposable9 = vscode.commands.registerCommand('extension.requireGrammer', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
         const pathOrModuleName = await vscode.env.clipboard.readText();
@@ -151,4 +185,6 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(disposable5);
     context.subscriptions.push(disposable6);
     context.subscriptions.push(disposable7);
+    context.subscriptions.push(disposable8);
+    context.subscriptions.push(disposable9);
 }
