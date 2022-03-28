@@ -135,7 +135,7 @@ export function activate(context: vscode.ExtensionContext) {
         const iconName = await vscode.env.clipboard.readText();
 
         if (iconName) {
-            const insertStr = `import { iconName } from '@ant-design/icons';`;
+            const insertStr = `import { ${iconName} } from '@ant-design/icons';`;
     
             if (editor) {
                 editor.edit(editBuilder => {
