@@ -2,7 +2,7 @@
     "name": "texteditor-util",
     "displayName": "text util",
     "description": "文本处理小工具",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "publisher": "haohailiang",
     "private": true,
     "license": "MIT",
@@ -64,6 +64,36 @@
             {
                 "command": "extension.importGrammer7",
                 "title": "quokka 引入方式"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "extension.importGrammer1",
+                "mac": "cmd+k cmd+7"
+            },
+            {
+                "command": "extension.importGrammer2",
+                "mac": "cmd+k cmd+8"
+            },
+            {
+                "command": "extension.importGrammer3",
+                "mac": "cmd+k cmd+a"
+            },
+            {
+                "command": "extension.importGrammer4",
+                "mac": "cmd+k cmd+g"
+            },
+            {
+                "command": "extension.importGrammer5",
+                "mac": "cmd+k cmd+o"
+            },
+            {
+                "command": "extension.importGrammer6",
+                "mac": "cmd+k cmd+p"
+            },
+            {
+                "command": "extension.importGrammer7",
+                "mac": "cmd+k cmd+h"
             }
         ]
     },
