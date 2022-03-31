@@ -169,7 +169,7 @@ export function activate(context: vscode.ExtensionContext) {
         const iconClazz = await vscode.env.clipboard.readText();
 
         if (iconClazz) {
-            const insertStr = `import Iconfont from '@/components/iconfont';\n<Iconfont type="${iconClazz}" className="todo" />`;
+            const insertStr = `import IconFont from '@/components/iconfont';\n<IconFont type="${iconClazz}" className="todo" />`;
     
             if (editor) {
                 editor.edit(editBuilder => {
