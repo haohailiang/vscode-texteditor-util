@@ -2,7 +2,7 @@
     "name": "texteditor-util",
     "displayName": "text util",
     "description": "文本处理小工具",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "publisher": "haohailiang",
     "private": true,
     "license": "MIT",
@@ -24,6 +24,7 @@
         "onCommand:extension.importGrammer5",
         "onCommand:extension.importGrammer6",
         "onCommand:extension.importGrammer7",
+        "onCommand:extension.importGrammer8",
         "onCommand:extension.requireGrammer"
     ],
     "main": "./out/extension",
@@ -51,22 +52,30 @@
             },
             {
                 "command": "extension.importGrammer5",
-                "title": "import 引入方式[icon]"
+                "title": "import 引入方式[@mlamp/darwin-lampstand]"
             },
             {
                 "command": "extension.importGrammer6",
+                "title": "import 引入方式[icon]"
+            },
+            {
+                "command": "extension.importGrammer7",
                 "title": "import 引入方式[icon-diy]"
+            },
+            {
+                "command": "extension.importGrammer8",
+                "title": "quokka 引入方式"
             },
             {
                 "command": "extension.requireGrammer",
                 "title": "require 引入方式"
-            },
-            {
-                "command": "extension.importGrammer7",
-                "title": "quokka 引入方式"
             }
         ],
         "keybindings": [
+            {
+                "command": "extension.toggleState",
+                "mac": "ctrl+cmd+f"
+            },
             {
                 "command": "extension.importGrammer1",
                 "mac": "cmd+k cmd+7"
@@ -94,6 +103,14 @@
             {
                 "command": "extension.importGrammer7",
                 "mac": "cmd+k cmd+h"
+            },
+            {
+                "command": "extension.importGrammer8",
+                "mac": "cmd+k cmd+r"
+            },
+            {
+                "command": "extension.requireGrammer",
+                "mac": "cmd+k cmd+t"
             }
         ]
     },
