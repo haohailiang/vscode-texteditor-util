@@ -26,6 +26,49 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
+    const disposable2 = vscode.commands.registerCommand('extension.viewChange', async function () {
+        if(!vscode.workspace.rootPath) {
+            // notify the user nothing can be done without open folder
+            vscode.window.showErrorMessage('没有打开的文件夹');
+            return;            
+        }
+
+        // Get the current text editor
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            // notify the user nothing can be done without active editor
+            vscode.window.showErrorMessage('没有打开的文件');
+            return;
+        }
+
+        const doc = editor.document;
+
+        if(doc.isUntitled) {
+            // notify the user nothing can be done when file isn't saved yet
+            vscode.window.showErrorMessage('当前打开的文件没保存');
+            return;
+        }
+
+        const position = editor.selection.active;
+        const curLineIndex = position.line;
+
+        await vscode.env.clipboard.writeText(String(curLineIndex + 1));
+        await vscode.commands.executeCommand("git.openChange");
+        await vscode.commands.executeCommand("workbench.action.gotoLine");
+        await vscode.commands.executeCommand("execPaste");
+
+
+        // if (editor) {
+        //     const position = editor.selection.active;
+    
+        //     const newPositionStart = position.with(position.line, 0);
+        //     const newPositionEnd = position.with(position.line, 20);
+        //     const newSelection = new vscode.Selection(newPositionStart, newPositionEnd);
+        //     editor.selection = newSelection;
+
+        // }
+    });
+
     // change case修改
     // const disposable2 = vscode.commands.registerCommand('extension.changeCase', async function () {
     //     const editor = vscode.window.activeTextEditor;
@@ -216,7 +259,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     context.subscriptions.push(disposable);
-    // context.subscriptions.push(disposable2);
+    context.subscriptions.push(disposable2);
     context.subscriptions.push(disposable3);
     context.subscriptions.push(disposable4);
     context.subscriptions.push(disposable5);

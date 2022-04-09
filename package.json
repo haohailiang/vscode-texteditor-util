@@ -2,7 +2,7 @@
     "name": "texteditor-util",
     "displayName": "text util",
     "description": "文本处理小工具",
-    "version": "0.0.12",
+    "version": "0.0.14",
     "publisher": "haohailiang",
     "private": true,
     "license": "MIT",
@@ -17,6 +17,7 @@
     ],
     "activationEvents": [
         "onCommand:extension.toggleState",
+        "onCommand:extension.viewChange",
         "onCommand:extension.importGrammer1",
         "onCommand:extension.importGrammer2",
         "onCommand:extension.importGrammer3",
@@ -33,6 +34,10 @@
             {
                 "command": "extension.toggleState",
                 "title": "toggle state切换"
+            },
+            {
+                "command": "extension.viewChange",
+                "title": "view git change"
             },
             {
                 "command": "extension.importGrammer1",
@@ -75,6 +80,10 @@
             {
                 "command": "extension.toggleState",
                 "mac": "ctrl+cmd+f"
+            },
+            {
+                "command": "extension.viewChange",
+                "mac": "cmd+k cmd+;"
             },
             {
                 "command": "extension.importGrammer1",
