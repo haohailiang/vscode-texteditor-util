@@ -20,9 +20,9 @@ export function activate(context: vscode.ExtensionContext) {
             const reverseState = util.toggleState(word);
 
             await vscode.env.clipboard.writeText(reverseState);
-            await vscode.commands.executeCommand("actions.find");
-            await vscode.commands.executeCommand("editor.action.selectAll");
-            await vscode.commands.executeCommand("execPaste");
+            // await vscode.commands.executeCommand("actions.find");
+            // await vscode.commands.executeCommand("editor.action.selectAll");
+            // await vscode.commands.executeCommand("execPaste");
         }
     });
 
