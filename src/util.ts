@@ -24,6 +24,18 @@ const toggleState = (text: string): string => {
 };
 
 /**
+ * generateState自动生成
+ * @param text 输入的文本
+ * @returns 返回state和setState
+ */
+const generateState = (text: string): [string, string] => {
+    const first = changeCase.camelCase(text);
+	const second = changeCase.camelCase(`set ${text}`);
+
+    return [first, second];
+};
+
+/**
  * 转换后的类型
  * @param text 源文本
  * @param type 转换类型
@@ -58,5 +70,6 @@ const toggleState = (text: string): string => {
 
 export default {
     toggleState,
+    generateState,
     // handleChangeCase,
 };
