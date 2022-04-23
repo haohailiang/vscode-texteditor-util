@@ -2,7 +2,7 @@
     "name": "texteditor-util",
     "displayName": "text util",
     "description": "文本处理小工具",
-    "version": "0.0.16",
+    "version": "0.0.17",
     "publisher": "haohailiang",
     "private": true,
     "license": "MIT",
@@ -16,118 +16,128 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.toggleState",
-        "onCommand:extension.generateState1",
-        "onCommand:extension.generateState2",
-        "onCommand:extension.importGrammer1",
-        "onCommand:extension.importGrammer2",
-        "onCommand:extension.importGrammer3",
-        "onCommand:extension.importGrammer4",
-        "onCommand:extension.importGrammer5",
-        "onCommand:extension.importGrammer6",
-        "onCommand:extension.importGrammer7",
-        "onCommand:extension.importGrammer8",
-        "onCommand:extension.requireGrammer"
+        "onCommand:texteditor-util.toggleState",
+        "onCommand:texteditor-util.generateState1",
+        "onCommand:texteditor-util.generateState2",
+        "onCommand:texteditor-util.importGrammer1",
+        "onCommand:texteditor-util.importGrammer2",
+        "onCommand:texteditor-util.importGrammer3",
+        "onCommand:texteditor-util.importGrammer4",
+        "onCommand:texteditor-util.importGrammer5",
+        "onCommand:texteditor-util.importGrammer6",
+        "onCommand:texteditor-util.importGrammer7",
+        "onCommand:texteditor-util.importGrammer8",
+        "onCommand:texteditor-util.requireGrammer",
+        "onCommand:texteditor-util.emmet.enable",
+        "onCommand:texteditor-util.emmet.disable"
     ],
     "main": "./out/extension",
     "contributes": {
         "commands": [
             {
-                "command": "extension.toggleState",
-                "title": "toggle state setState"
+                "command": "texteditor-util.toggleState",
+                "title": "[texteditor-util] toggleState"
             },
             {
-                "command": "extension.generateState1",
-                "title": "auto generate state with type"
-            },
-			{
-                "command": "extension.generateState2",
-                "title": "auto generate state without type"
+                "command": "texteditor-util.generateState1",
+                "title": "[texteditor-util] auto generate state with type"
             },
             {
-                "command": "extension.importGrammer1",
-                "title": "import 引入方式[component]"
+                "command": "texteditor-util.generateState2",
+                "title": "[texteditor-util] auto generate state without type"
             },
             {
-                "command": "extension.importGrammer2",
-                "title": "import 引入方式[container]"
+                "command": "texteditor-util.importGrammer1",
+                "title": "[texteditor-util] import 引入方式[component]"
             },
             {
-                "command": "extension.importGrammer3",
-                "title": "import 引入方式[type]"
+                "command": "texteditor-util.importGrammer2",
+                "title": "[texteditor-util] import 引入方式[container]"
             },
             {
-                "command": "extension.importGrammer4",
-                "title": "import 引入方式[antd]"
+                "command": "texteditor-util.importGrammer3",
+                "title": "[texteditor-util] import 引入方式[type]"
             },
             {
-                "command": "extension.importGrammer5",
-                "title": "import 引入方式[@mlamp/darwin-lampstand]"
+                "command": "texteditor-util.importGrammer4",
+                "title": "[texteditor-util] import 引入方式[antd]"
             },
             {
-                "command": "extension.importGrammer6",
-                "title": "import 引入方式[icon]"
+                "command": "texteditor-util.importGrammer5",
+                "title": "[texteditor-util] import 引入方式[@mlamp/darwin-lampstand]"
             },
             {
-                "command": "extension.importGrammer7",
-                "title": "import 引入方式[icon-diy]"
+                "command": "texteditor-util.importGrammer6",
+                "title": "[texteditor-util] import 引入方式[icon]"
             },
             {
-                "command": "extension.importGrammer8",
-                "title": "quokka 引入方式"
+                "command": "texteditor-util.importGrammer7",
+                "title": "[texteditor-util] import 引入方式[icon-diy]"
             },
             {
-                "command": "extension.requireGrammer",
-                "title": "require 引入方式"
+                "command": "texteditor-util.importGrammer8",
+                "title": "[texteditor-util] quokka 引入方式"
+            },
+            {
+                "command": "texteditor-util.requireGrammer",
+                "title": "[texteditor-util] require 引入方式"
+            },
+            {
+                "command": "texteditor-util.emmet.enable",
+                "title": "[texteditor-util] 启用emmet"
+            },
+            {
+                "command": "texteditor-util.emmet.disable",
+                "title": "[texteditor-util] 禁用emmet"
             }
         ],
         "keybindings": [
             {
-                "command": "extension.toggleState",
+                "command": "texteditor-util.toggleState",
                 "mac": "ctrl+cmd+f"
             },
             {
-                "command": "extension.generateState1",
+                "command": "texteditor-util.generateState1",
                 "mac": "cmd+k cmd+;"
             },
-			{
-                "command": "extension.generateState2",
+            {
+                "command": "texteditor-util.generateState2",
                 "mac": "cmd+k cmd+'"
             },
             {
-                "command": "extension.importGrammer1",
+                "command": "texteditor-util.importGrammer1",
                 "mac": "cmd+k cmd+7"
             },
             {
-                "command": "extension.importGrammer2",
+                "command": "texteditor-util.importGrammer2",
                 "mac": "cmd+k cmd+8"
             },
             {
-                "command": "extension.importGrammer3",
+                "command": "texteditor-util.importGrammer3",
                 "mac": "cmd+k cmd+a"
             },
             {
-                "command": "extension.importGrammer4",
+                "command": "texteditor-util.importGrammer4",
                 "mac": "cmd+k cmd+g"
             },
             {
-                "command": "extension.importGrammer5",
+                "command": "texteditor-util.importGrammer5",
                 "mac": "cmd+k cmd+o"
             },
             {
-                "command": "extension.importGrammer6",
+                "command": "texteditor-util.importGrammer6",
                 "mac": "cmd+k cmd+p"
             },
             {
-                "command": "extension.importGrammer7",
+                "command": "texteditor-util.importGrammer7",
                 "mac": "cmd+k cmd+h"
             },
             {
-                "command": "extension.importGrammer8",
+                "command": "texteditor-util.importGrammer8",
                 "mac": "cmd+k cmd+r"
             },
             {
-                "command": "extension.requireGrammer",
+                "command": "texteditor-util.requireGrammer",
                 "mac": "cmd+k cmd+t"
             }
         ]

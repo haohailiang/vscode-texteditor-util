@@ -7,7 +7,7 @@ import { ChangeCaseType } from './typing';
 
 export function activate(context: vscode.ExtensionContext) {
     // toggle state状态切换
-    const disposable = vscode.commands.registerCommand('extension.toggleState', async function () {
+    const toggleState = vscode.commands.registerCommand('texteditor-util.toggleState', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
 
@@ -26,7 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-    const disposable2d1 = vscode.commands.registerCommand('extension.generateState1', async function () {
+    const generateState1 = vscode.commands.registerCommand('texteditor-util.generateState1', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
 
@@ -40,7 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
             });
         }
     });
-    const disposable2d2 = vscode.commands.registerCommand('extension.generateState2', async function () {
+    const generateState2 = vscode.commands.registerCommand('texteditor-util.generateState2', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
 
@@ -55,7 +55,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-    // const disposable2 = vscode.commands.registerCommand('extension.viewChange', async function () {
+    // const disposable2 = vscode.commands.registerCommand('texteditor-util.viewChange', async function () {
     //     if(!vscode.workspace.rootPath) {
     //         // notify the user nothing can be done without open folder
     //         vscode.window.showErrorMessage('没有打开的文件夹');
@@ -99,7 +99,7 @@ export function activate(context: vscode.ExtensionContext) {
     // });
 
     // change case修改
-    // const disposable2 = vscode.commands.registerCommand('extension.changeCase', async function () {
+    // const disposable2 = vscode.commands.registerCommand('texteditor-util.changeCase', async function () {
     //     const editor = vscode.window.activeTextEditor;
 
     //     if (editor) {
@@ -129,7 +129,7 @@ export function activate(context: vscode.ExtensionContext) {
     // });
 
     // import的引入方式[开发组件使用]
-    const disposable3 = vscode.commands.registerCommand('extension.importGrammer1', async function () {
+    const importGrammer1 = vscode.commands.registerCommand('texteditor-util.importGrammer1', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
         const pathOrModuleName = await vscode.env.clipboard.readText();
@@ -148,7 +148,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     // import的引入方式[开发容器使用]
-    const disposable4 = vscode.commands.registerCommand('extension.importGrammer2', async function () {
+    const importGrammer2 = vscode.commands.registerCommand('texteditor-util.importGrammer2', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
         const pathOrModuleName = await vscode.env.clipboard.readText();
@@ -167,7 +167,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     // import的引入方式[type]
-    const disposable5 = vscode.commands.registerCommand('extension.importGrammer3', async function () {
+    const importGrammer3 = vscode.commands.registerCommand('texteditor-util.importGrammer3', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
         const typeName = await vscode.env.clipboard.readText();
@@ -184,7 +184,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     // import的引入方式[antd]
-    const disposable6 = vscode.commands.registerCommand('extension.importGrammer4', async function () {
+    const importGrammer4 = vscode.commands.registerCommand('texteditor-util.importGrammer4', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
         const cmponentName = await vscode.env.clipboard.readText();
@@ -201,7 +201,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     // import的引入方式[@mlamp/darwin-lampstand]
-    const disposable7 = vscode.commands.registerCommand('extension.importGrammer5', async function () {
+    const importGrammer5 = vscode.commands.registerCommand('texteditor-util.importGrammer5', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
         const cmponentName = await vscode.env.clipboard.readText();
@@ -218,7 +218,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     // import的引入方式[icon]
-    const disposable8 = vscode.commands.registerCommand('extension.importGrammer6', async function () {
+    const importGrammer6 = vscode.commands.registerCommand('texteditor-util.importGrammer6', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
         const iconName = await vscode.env.clipboard.readText();
@@ -235,7 +235,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     // import的引入方式[icon-diy]
-    const disposable9 = vscode.commands.registerCommand('extension.importGrammer7', async function () {
+    const importGrammer7 = vscode.commands.registerCommand('texteditor-util.importGrammer7', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
         const iconClazz = await vscode.env.clipboard.readText();
@@ -252,7 +252,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     // import的引入方式[quokkajs]
-    const disposable10 = vscode.commands.registerCommand('extension.importGrammer8', async function () {
+    const importGrammer8 = vscode.commands.registerCommand('texteditor-util.importGrammer8', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
         const packageName = await vscode.env.clipboard.readText();
@@ -270,7 +270,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     // require的引入方式[给quokkajs使用]
-    const disposable11 = vscode.commands.registerCommand('extension.requireGrammer', async function () {
+    const requireGrammer = vscode.commands.registerCommand('texteditor-util.requireGrammer', async function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
         const pathOrModuleName = await vscode.env.clipboard.readText();
@@ -287,16 +287,30 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-    context.subscriptions.push(disposable);
-    context.subscriptions.push(disposable2d1);
-    context.subscriptions.push(disposable2d2);
-    context.subscriptions.push(disposable3);
-    context.subscriptions.push(disposable4);
-    context.subscriptions.push(disposable5);
-    context.subscriptions.push(disposable6);
-    context.subscriptions.push(disposable7);
-    context.subscriptions.push(disposable8);
-    context.subscriptions.push(disposable9);
-    context.subscriptions.push(disposable10);
-    context.subscriptions.push(disposable11);
+	// 开启emmet的功能
+    const enableEmmet = vscode.commands.registerCommand("texteditor-util.emmet.enable", () => {
+        vscode.workspace.getConfiguration("emmet").update("showExpandedAbbreviation", 'always', true);
+        vscode.window.showInformationMessage('emment功能开启');
+    });
+
+    // 关闭emmet的功能
+    const disableEmmet = vscode.commands.registerCommand("texteditor-util.emmet.disable", () => {
+        vscode.workspace.getConfiguration("emmet").update("showExpandedAbbreviation", 'never', true);
+        vscode.window.showInformationMessage('emment功能关闭');
+    });
+
+    context.subscriptions.push(toggleState);
+    context.subscriptions.push(generateState1);
+    context.subscriptions.push(generateState2);
+    context.subscriptions.push(importGrammer1);
+    context.subscriptions.push(importGrammer2);
+    context.subscriptions.push(importGrammer3);
+    context.subscriptions.push(importGrammer4);
+    context.subscriptions.push(importGrammer5);
+    context.subscriptions.push(importGrammer6);
+    context.subscriptions.push(importGrammer7);
+    context.subscriptions.push(importGrammer8);
+    context.subscriptions.push(requireGrammer);
+    context.subscriptions.push(enableEmmet);
+    context.subscriptions.push(disableEmmet);
 }
