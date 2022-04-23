@@ -2,7 +2,7 @@
     "name": "texteditor-util",
     "displayName": "text util",
     "description": "文本处理小工具",
-    "version": "0.0.17",
+    "version": "0.0.18",
     "publisher": "haohailiang",
     "private": true,
     "license": "MIT",
@@ -139,6 +139,39 @@
             {
                 "command": "texteditor-util.requireGrammer",
                 "mac": "cmd+k cmd+t"
+            }
+        ],
+        "menus": {
+            "editor/context": [
+                {
+                    "submenu": "customChangeCase"
+                }
+            ],
+            "customChangeCase": [
+                {
+                    "command": "extension.changeCase.camel"
+                },
+                {
+                    "command": "extension.changeCase.constant"
+                },
+                {
+                    "command": "extension.changeCase.kebab"
+                },
+                {
+                    "command": "extension.changeCase.pascal"
+                },
+                {
+                    "command": "extension.changeCase.lower"
+                },
+                {
+                    "command": "extension.changeCase.upper"
+                }
+            ]
+        },
+        "submenus": [
+            {
+                "id": "customChangeCase",
+                "label": "changeCase简单使用"
             }
         ]
     },
