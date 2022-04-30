@@ -2,8 +2,9 @@
 
 import * as vscode from 'vscode';
 import * as changeCase from 'change-case';
+import * as fg from 'fast-glob';
 import util from './util';
-import { ChangeCaseType } from './typing';
+import { QuickPickItem } from './typing';
 
 export function activate(context: vscode.ExtensionContext) {
     // toggle state状态切换
@@ -306,22 +307,7 @@ export function activate(context: vscode.ExtensionContext) {
         if (editor) {
             const document = editor.document;
             const selection = editor.selection;
-
-            // const variableNames = await vscode.window.showInputBox({
-            //     placeHolder: '请输入变量名称, 多个用空格隔开',
-            //     prompt: ``,
-            //     ignoreFocusOut: true,
-            //     validateInput: function(text) {
-            //         if (!text) {
-            //             return '变量名称不能为空';
-            //         }
-
-            //         return '';
-            //     },
-            //     valueSelection: [-1, -1]
-            // });
             const variableNames = await vscode.env.clipboard.readText();
-
             const vdom = document.getText(selection);
             const [chainingOperatorsOptions, nVdom] = util.getChainingOperators(vdom, variableNames!.split(/\s+/));
 
@@ -355,22 +341,7 @@ export function activate(context: vscode.ExtensionContext) {
         if (editor) {
             const document = editor.document;
             const selection = editor.selection;
-
-            // const variableNames = await vscode.window.showInputBox({
-            //     placeHolder: '请输入变量名称, 多个用空格隔开',
-            //     prompt: ``,
-            //     ignoreFocusOut: true,
-            //     validateInput: function(text) {
-            //         if (!text) {
-            //             return '变量名称不能为空';
-            //         }
-
-            //         return '';
-            //     },
-            //     valueSelection: [-1, -1]
-            // });
             const variableNames = await vscode.env.clipboard.readText();
-
             const vdom = document.getText(selection);
             const [chainingOperatorsOptions, nVdom] = util.getChainingOperators(vdom, variableNames!.split(/\s+/));
 
@@ -404,22 +375,7 @@ export function activate(context: vscode.ExtensionContext) {
         if (editor) {
             const document = editor.document;
             const selection = editor.selection;
-
-            // const variableNames = await vscode.window.showInputBox({
-            //     placeHolder: '请输入单个变量名称',
-            //     prompt: ``,
-            //     ignoreFocusOut: true,
-            //     validateInput: function(text) {
-            //         if (!text) {
-            //             return '变量名称不能为空';
-            //         }
-
-            //         return '';
-            //     },
-            //     valueSelection: [-1, -1]
-            // });
             const variableName = await vscode.env.clipboard.readText();
-
             const vdom = document.getText(selection);
             if(variableName) {
                 const [chainingOperatorsOption, nVdom] = util.getChainingOperators3(vdom, variableName);
@@ -432,6 +388,79 @@ export function activate(context: vscode.ExtensionContext) {
                     });
                 }
             }
+        }
+    });
+
+    // 从html文件定位到组件文件 [html 2 component]
+    const html_2Component = vscode.commands.registerCommand('texteditor-util.html_2Component', async function () {
+        // standard-process-filter__src-reviewsale-standard-deploy-components-standard-process-filter-scss-index_P63co
+        const elementsClass = await vscode.env.clipboard.readText();
+        const reg1 = /(?<clazzName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)__src-(?<moduleName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)-components-(?<componentName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)-scss-index/u;
+        const result1 = reg1.exec(elementsClass);
+        const { clazzName, moduleName, componentName } = result1?.groups ?? {};
+
+        if (!clazzName) {
+            vscode.window.showErrorMessage('类名为空');
+            return;
+        }
+
+        if (!moduleName) {
+            vscode.window.showErrorMessage('模块名称为空');
+            return;
+        }
+
+        if (!componentName) {
+            vscode.window.showErrorMessage('组件名称为空');
+            return;
+        }
+
+        const moduleNameArr = moduleName.split('-');
+        const maybeModulePathArr = [moduleName];
+
+        for(let i = 1; i< moduleNameArr.length; i++) {
+            const first = moduleNameArr.slice(0, i).join('-');
+            const second = moduleNameArr.slice(i).join('-');
+            maybeModulePathArr.push(first + '/' + second);
+        }
+        const initMaybeComponentPaths: string[] = [];
+        const { workspaceFolders } = vscode.workspace;
+        if (workspaceFolders && workspaceFolders.length > 0) {
+            const maybeComponentPaths = maybeModulePathArr.reduce((total, curModulePath) => {
+                const curComponnetPath = workspaceFolders[0].uri.path + '/src/' + curModulePath + '/components/' +  componentName + '/index.tsx';
+                return [...total, curComponnetPath];
+            }, initMaybeComponentPaths);
+            const allFiles = fg.sync(maybeComponentPaths, { dot: true, ignore: ["**/node_modules"] });
+
+            const items = allFiles.map(util.generateQuickPickItem);
+
+            if (items.length) {
+                const placeholderText = `Element面板对应的组件`;
+                let selectedPath: QuickPickItem | undefined = items[0];
+
+                if (items.length > 1) {
+                    selectedPath = await vscode.window
+                    .showQuickPick(items, {
+                        placeHolder: placeholderText,
+                        matchOnDescription: true
+                    });
+
+                    if (!selectedPath) {
+                        vscode.window.showErrorMessage('请选择一个路径');
+                        return;
+                    }
+                }
+
+                await util.open(selectedPath);
+                const camelCaseClazzName = changeCase.camelCase(clazzName);
+                await vscode.env.clipboard.writeText(`styles.${camelCaseClazzName}`);
+                await vscode.commands.executeCommand("actions.find");
+                await vscode.commands.executeCommand("editor.action.selectAll");
+                await vscode.commands.executeCommand("execPaste");
+            } else {
+                vscode.window.showErrorMessage('没有匹配的路径');
+            }
+        } else {
+            vscode.window.showErrorMessage('没有找到对应的工作空间');
         }
     });
 
@@ -452,4 +481,5 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(optionalChainingOperator1);
     context.subscriptions.push(optionalChainingOperator2);
     context.subscriptions.push(optionalChainingOperator3);
+    context.subscriptions.push(html_2Component);
 }

@@ -4,8 +4,9 @@
  * 日期: 2022-03-05
  */
 
+import * as vscode from 'vscode';
 import * as changeCase from 'change-case';
-import { ChangeCaseType } from './typing';
+import { ChangeCaseType, QuickPickItem } from './typing';
 
 /**
 * hook state文本切换
@@ -63,6 +64,27 @@ const getOperatorsDom2 = (operaters: string[]): string => {
     return operaters.join(' && ');
 };
 
+const generateQuickPickItem = (pathOrUri: string, order: number): QuickPickItem => {
+    const document = vscode.window.activeTextEditor && vscode.window.activeTextEditor.document;
+    const workspaceFolder = document ? vscode.workspace.getWorkspaceFolder(document.uri) : null;
+    // const maybeWorkspaceFolder = workspaceFolder ? workspaceFolder.uri.path : "";
+    const maybeWorkspaceFolder = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.path : "";
+    const fileName = vscode.workspace.asRelativePath(pathOrUri);
+
+    return {
+        url: vscode.Uri.file(pathOrUri),
+        rootPath: maybeWorkspaceFolder,
+        label: `[${order + 1}]`,
+        description: fileName
+    };
+};
+
+const open = (item: QuickPickItem) => {
+    return vscode.workspace
+        .openTextDocument(item.url)
+        .then(doc => vscode.window.showTextDocument(doc.uri));
+};
+
 /**
  * 转换后的类型
  * @param text 源文本
@@ -103,5 +125,7 @@ export default {
     getChainingOperators3,
     getOperatorsDom1,
     getOperatorsDom2,
+    generateQuickPickItem,
+    open,
     // handleChangeCase,
 };
