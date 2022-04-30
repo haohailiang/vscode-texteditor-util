@@ -30,9 +30,37 @@ const toggleState = (text: string): string => {
  */
 const generateState = (text: string): [string, string] => {
     const first = changeCase.camelCase(text);
-	const second = changeCase.camelCase(`set ${text}`);
+    const second = changeCase.camelCase(`set ${text}`);
 
     return [first, second];
+};
+
+// 获取链式操作的列表
+const getChainingOperators = (vdom: string, variableNames: string[]): [string[], string] => {
+    vdom = vdom.replace('?.', '.');
+    const outerOperators = variableNames.map(v => {
+        // . -> ?.
+        return v.replace(/(?<!\?)\./g, '?.');
+    });
+    return [outerOperators, vdom];
+};
+
+// 获取链式操作的列表
+const getChainingOperators3 = (vdom: string, variableName: string): [string, string] => {
+    vdom = vdom.replace(/(?<!\?)\./g, '?.');
+    const outerOperator = variableName.replace(/(?<!\?)\./g, '?.');
+    return [outerOperator, vdom];
+};
+
+// 获取操作符的dom结构1
+const getOperatorsDom1 = (operaters: string[]): string => {
+    const midProcess = operaters.map(v => `(typeof ${v} !== 'undefined')`);
+    return midProcess.join(' && ');
+};
+
+// 获取操作符的dom结构2
+const getOperatorsDom2 = (operaters: string[]): string => {
+    return operaters.join(' && ');
 };
 
 /**
@@ -71,5 +99,9 @@ const generateState = (text: string): [string, string] => {
 export default {
     toggleState,
     generateState,
+    getChainingOperators,
+    getChainingOperators3,
+    getOperatorsDom1,
+    getOperatorsDom2,
     // handleChangeCase,
 };

@@ -2,7 +2,7 @@
     "name": "texteditor-util",
     "displayName": "text util",
     "description": "文本处理小工具",
-    "version": "0.0.18",
+    "version": "0.0.19",
     "publisher": "haohailiang",
     "private": true,
     "license": "MIT",
@@ -29,7 +29,10 @@
         "onCommand:texteditor-util.importGrammer8",
         "onCommand:texteditor-util.requireGrammer",
         "onCommand:texteditor-util.emmet.enable",
-        "onCommand:texteditor-util.emmet.disable"
+        "onCommand:texteditor-util.emmet.disable",
+        "onCommand:texteditor-util.optionalChainingOperator-1",
+        "onCommand:texteditor-util.optionalChainingOperator-2",
+        "onCommand:texteditor-util.optionalChainingOperator-3"
     ],
     "main": "./out/extension",
     "contributes": {
@@ -89,6 +92,18 @@
             {
                 "command": "texteditor-util.emmet.disable",
                 "title": "[texteditor-util] 禁用emmet"
+            },
+            {
+                "command": "texteditor-util.optionalChainingOperator-1",
+                "title": "[texteditor-util] optional chaining operator 1 undefined"
+            },
+            {
+                "command": "texteditor-util.optionalChainingOperator-2",
+                "title": "[texteditor-util] optional chaining operator 2 x.x || x.x.length"
+            },
+            {
+                "command": "texteditor-util.optionalChainingOperator-3",
+                "title": "[texteditor-util] optional chaining operator 3 x?.x ?? '-'"
             }
         ],
         "keybindings": [

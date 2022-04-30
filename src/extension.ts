@@ -287,7 +287,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-	// 开启emmet的功能
+    // 开启emmet的功能
     const enableEmmet = vscode.commands.registerCommand("texteditor-util.emmet.enable", () => {
         vscode.workspace.getConfiguration("emmet").update("showExpandedAbbreviation", 'always', true);
         vscode.window.showInformationMessage('emment功能开启');
@@ -297,6 +297,142 @@ export function activate(context: vscode.ExtensionContext) {
     const disableEmmet = vscode.commands.registerCommand("texteditor-util.emmet.disable", () => {
         vscode.workspace.getConfiguration("emmet").update("showExpandedAbbreviation", 'never', true);
         vscode.window.showInformationMessage('emment功能关闭');
+    });
+
+    // 可选链操作符-1[剪切板是链式操作符, 选中的是Vdom文本]
+    const optionalChainingOperator1 = vscode.commands.registerCommand('texteditor-util.optionalChainingOperator-1', async function () {
+        const editor = vscode.window.activeTextEditor;
+
+        if (editor) {
+            const document = editor.document;
+            const selection = editor.selection;
+
+            // const variableNames = await vscode.window.showInputBox({
+            //     placeHolder: '请输入变量名称, 多个用空格隔开',
+            //     prompt: ``,
+            //     ignoreFocusOut: true,
+            //     validateInput: function(text) {
+            //         if (!text) {
+            //             return '变量名称不能为空';
+            //         }
+
+            //         return '';
+            //     },
+            //     valueSelection: [-1, -1]
+            // });
+            const variableNames = await vscode.env.clipboard.readText();
+
+            const vdom = document.getText(selection);
+            const [chainingOperatorsOptions, nVdom] = util.getChainingOperators(vdom, variableNames!.split(/\s+/));
+
+            if (chainingOperatorsOptions?.length > 0) {
+                const operatorsDom  = util.getOperatorsDom1(chainingOperatorsOptions);
+                const prevSpaceNums = vscode?.window?.activeTextEditor?.selection?.active?.character ?? 0;
+                const prevSpace = Array.from({ length: prevSpaceNums }, () => ' ').join('');
+                let result = `{
+    ${operatorsDom} && (
+        ${nVdom}
+    )
+}`;
+                result = result.split('\n').map((line, index) => {
+                    if (index === 0) {
+                        return line;
+                    }
+                    return prevSpace + line;
+                }).join('\n');
+
+                editor.edit(editBuilder => {
+                    editBuilder.replace(selection, result);
+                });
+            }
+        }
+    });
+
+    // 可选链操作符-2[剪切板是链式操作符, 选中的是Vdom文本]
+    const optionalChainingOperator2 = vscode.commands.registerCommand('texteditor-util.optionalChainingOperator-2', async function () {
+        const editor = vscode.window.activeTextEditor;
+
+        if (editor) {
+            const document = editor.document;
+            const selection = editor.selection;
+
+            // const variableNames = await vscode.window.showInputBox({
+            //     placeHolder: '请输入变量名称, 多个用空格隔开',
+            //     prompt: ``,
+            //     ignoreFocusOut: true,
+            //     validateInput: function(text) {
+            //         if (!text) {
+            //             return '变量名称不能为空';
+            //         }
+
+            //         return '';
+            //     },
+            //     valueSelection: [-1, -1]
+            // });
+            const variableNames = await vscode.env.clipboard.readText();
+
+            const vdom = document.getText(selection);
+            const [chainingOperatorsOptions, nVdom] = util.getChainingOperators(vdom, variableNames!.split(/\s+/));
+
+            if (chainingOperatorsOptions?.length > 0) {
+                const operatorsDom  = util.getOperatorsDom2(chainingOperatorsOptions);
+                const prevSpaceNums = vscode?.window?.activeTextEditor?.selection?.active?.character ?? 0;
+                const prevSpace = Array.from({ length: prevSpaceNums }, () => ' ').join('');
+                let result = `{
+    ${operatorsDom} && (
+        ${nVdom}
+    )
+}`;
+                result = result.split('\n').map((line, index) => {
+                    if (index === 0) {
+                        return line;
+                    }
+                    return prevSpace + line;
+                }).join('\n');
+
+                editor.edit(editBuilder => {
+                    editBuilder.replace(selection, result);
+                });
+            }
+        }
+    });
+
+    // 可选链操作符-3[剪切板是链式操作符, 选中的是Vdom文本]
+    const optionalChainingOperator3 = vscode.commands.registerCommand('texteditor-util.optionalChainingOperator-3', async function () {
+        const editor = vscode.window.activeTextEditor;
+
+        if (editor) {
+            const document = editor.document;
+            const selection = editor.selection;
+
+            // const variableNames = await vscode.window.showInputBox({
+            //     placeHolder: '请输入单个变量名称',
+            //     prompt: ``,
+            //     ignoreFocusOut: true,
+            //     validateInput: function(text) {
+            //         if (!text) {
+            //             return '变量名称不能为空';
+            //         }
+
+            //         return '';
+            //     },
+            //     valueSelection: [-1, -1]
+            // });
+            const variableName = await vscode.env.clipboard.readText();
+
+            const vdom = document.getText(selection);
+            if(variableName) {
+                const [chainingOperatorsOption, nVdom] = util.getChainingOperators3(vdom, variableName);
+    
+                if (chainingOperatorsOption) {
+                    const result = nVdom.replace(chainingOperatorsOption, chainingOperatorsOption + ` ?? '-'`);
+    
+                    editor.edit(editBuilder => {
+                        editBuilder.replace(selection, result);
+                    });
+                }
+            }
+        }
     });
 
     context.subscriptions.push(toggleState);
@@ -313,4 +449,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(requireGrammer);
     context.subscriptions.push(enableEmmet);
     context.subscriptions.push(disableEmmet);
+    context.subscriptions.push(optionalChainingOperator1);
+    context.subscriptions.push(optionalChainingOperator2);
+    context.subscriptions.push(optionalChainingOperator3);
 }
