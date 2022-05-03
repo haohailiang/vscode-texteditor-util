@@ -403,7 +403,7 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.window.showInformationMessage('标准cssModule功能关闭');
     });
 
-    // 从html文件定位到组件文件 [html 2 component]
+    // 从html文件定位到组件index.tsx文件 [html 2 component]
     const html_2Component = vscode.commands.registerCommand('texteditor-util.html_2Component', async function () {
         // standard-process-filter__src-reviewsale-standard-deploy-components-standard-process-filter-scss-index_P63co
         // progress-wrap__src-components-jzpx-case-detail-components-progress-scss-index_25MxG
@@ -557,6 +557,175 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
+    // 从html文件定位到组件scss文件 [html 2 scss]
+    const html_2Scss = vscode.commands.registerCommand('texteditor-util.html_2Scss', async function () {
+        // standard-process-filter__src-reviewsale-standard-deploy-components-standard-process-filter-scss-index_P63co
+        // progress-wrap__src-components-jzpx-case-detail-components-progress-scss-index_25MxG
+        // case__src-skill-components-common-case-index_q-tPb
+        const elementsClass = await vscode.env.clipboard.readText();
+        const reg1 = /(?<clazzName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)__src-components-(?<moduleName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)-components-(?<componentName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)-scss-index.+(?<lastSelector>\.[a-zA-Z0-9-]+)$/u; // 恩丰的垃圾代码 [带有模块名称]
+        const reg2 = /(?<clazzName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)__src-components-(?<componentName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)-scss-index.+(?<lastSelector>\.[a-zA-Z0-9-]+)$/u; // [不带有模块名称][公用组件]
+        const reg3 = /(?<clazzName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)__src-(?<moduleName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)-components-(?<componentName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)-scss-index.+(?<lastSelector>\.[a-zA-Z0-9-]+)$/u; // [带有模块名称]
+
+        // 不带scss文件夹的
+        const reg12 = /(?<clazzName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)__src-components-(?<moduleName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)-components-(?<componentName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)-index/u; // 恩丰的垃圾代码 [带有模块名称]
+        const reg22 = /(?<clazzName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)__src-components-(?<componentName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)-index/u; // [不带有模块名称][公用组件]
+        const reg32 = /(?<clazzName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)__src-(?<moduleName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)-components-(?<componentName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)-index/u; // [带有模块名称]
+        const result1 = reg1.exec(elementsClass);
+        const result2 = reg2.exec(elementsClass);
+        const result3 = reg3.exec(elementsClass);
+
+        const result12 = reg12.exec(elementsClass);
+        const result22 = reg22.exec(elementsClass);
+        const result32 = reg32.exec(elementsClass);
+
+        let clazzName: string | undefined;
+        let moduleName: string | undefined;
+        let componentName: string | undefined;
+        let lastSelector: string | undefined;
+
+        const { clazzName: clazzName1, moduleName: moduleName1, componentName: componentName1, lastSelector: lastSelector1 } = result1?.groups ?? {};
+        const { clazzName: clazzName2, componentName: componentName2, lastSelector: lastSelector2 } = result2?.groups ?? {};
+        const { clazzName: clazzName3, moduleName: moduleName3, componentName: componentName3, lastSelector: lastSelector3 } = result3?.groups ?? {};
+
+        const { clazzName: clazzName12, moduleName: moduleName12, componentName: componentName12 } = result12?.groups ?? {};
+        const { clazzName: clazzName22, componentName: componentName22 } = result22?.groups ?? {};
+        const { clazzName: clazzName32, moduleName: moduleName32, componentName: componentName32 } = result32?.groups ?? {};
+
+        let isBaseComponent = false;
+
+        if (clazzName1 && moduleName1 && componentName1) {
+            clazzName = clazzName1;
+            moduleName = moduleName1;
+            componentName = componentName1;
+            lastSelector = lastSelector1;
+        } else if (clazzName3 && moduleName3 && componentName3) {
+            clazzName = clazzName3;
+            moduleName = moduleName3;
+            componentName = componentName3;
+            lastSelector = lastSelector3;
+        } else if (clazzName2 && componentName2) {
+            clazzName = clazzName2;
+            componentName = componentName2;
+            lastSelector = lastSelector2;
+            isBaseComponent = true;
+        } else if (clazzName12 && moduleName12 && componentName12) { // 不带scss文件夹的
+            clazzName = clazzName12;
+            moduleName = moduleName12;
+            componentName = componentName12;
+        } else if (clazzName32 && moduleName32 && componentName32) {
+            clazzName = clazzName32;
+            moduleName = moduleName32;
+            componentName = componentName32;
+        } else if (clazzName22 && componentName22) {
+            clazzName = clazzName22;
+            componentName = componentName22;
+            isBaseComponent = true;
+        }
+
+
+        if (!clazzName) {
+            vscode.window.showErrorMessage('类名为空');
+            return;
+        }
+
+        if (!isBaseComponent && !moduleName) { // 不是基础木块才需要验证
+            vscode.window.showErrorMessage('模块名称为空');
+            return;
+        }
+
+        if (!componentName) {
+            vscode.window.showErrorMessage('组件名称为空');
+            return;
+        }
+
+        const { workspaceFolders } = vscode.workspace;
+        if (workspaceFolders && workspaceFolders.length > 0) {
+            const initMaybeComponentPaths: string[] = [];
+            let maybeComponentPaths: string[] =[];
+
+            if (moduleName) { // 非基础组件的情况
+                const moduleNameArr = moduleName.split('-');
+                const componentNameArr = componentName.split('-');
+                const maybeModulePathArr = [moduleName];
+                const maybeComponentPathArr = [componentName];
+    
+                for(let i = 1; i< moduleNameArr.length; i++) {
+                    const first = moduleNameArr.slice(0, i).join('-');
+                    const second = moduleNameArr.slice(i).join('-');
+                    maybeModulePathArr.push(first + '/' + second);
+                }
+                for(let i = 1; i< componentNameArr.length; i++) {
+                    const first = componentNameArr.slice(0, i).join('-');
+                    const second = componentNameArr.slice(i).join('-');
+                    maybeComponentPathArr.push(first + '/' + second);
+                }
+                maybeComponentPaths = maybeModulePathArr.reduce((total, curModulePath) => {
+                    const curComponnetPaths = maybeComponentPathArr.reduce((t1, c1) => {
+                        let cPath = workspaceFolders[0].uri.path + '/src/' + curModulePath + '/components/' +  c1 + '/index.tsx';
+                        if (lastSelector) {
+                            cPath = workspaceFolders[0].uri.path + '/src/' + curModulePath + '/components/' +  c1 + '/scss/index.scss';
+                        }
+                        return [...t1, cPath];
+                    }, [] as string[]);
+                    return [...total, ...curComponnetPaths];
+                }, initMaybeComponentPaths);
+            } else if (isBaseComponent) { // 纯组件
+                maybeComponentPaths = [
+                    workspaceFolders[0].uri.path + '/src/components/' +  componentName + '/index.tsx'
+                ];
+                if (lastSelector) {
+                    maybeComponentPaths = [
+                        workspaceFolders[0].uri.path + '/src/components/' +  componentName + '/scss/index.scss'
+                    ];
+                }
+            } else {
+                vscode.window.showErrorMessage('既不是带模块的组件也不是纯组件');
+                return;
+            }
+            const allFiles = fg.sync(maybeComponentPaths, { dot: true, ignore: ["**/node_modules"] });
+
+            const items = allFiles.map(util.generateQuickPickItem);
+
+            if (items.length) {
+                const placeholderText = `Element面板对应的组件`;
+                let selectedPath: QuickPickItem | undefined = items[0];
+
+                if (items.length > 1) {
+                    selectedPath = await vscode.window
+                    .showQuickPick(items, {
+                        placeHolder: placeholderText,
+                        matchOnDescription: true
+                    });
+
+                    if (!selectedPath) {
+                        vscode.window.showErrorMessage('请选择一个路径');
+                        return;
+                    }
+                }
+
+                await util.open(selectedPath);
+                const isEnable = vscode.workspace.getConfiguration("texteditor-util-css-module-type").get('enable');
+                let searchText = `styles['${clazzName}']`;
+                if (isEnable) { // 如果是超哥的标准css module
+                    const camelCaseClazzName = changeCase.camelCase(clazzName);
+                    searchText = `styles.${camelCaseClazzName}`;
+                }
+                if (lastSelector) {
+                    searchText = lastSelector;
+                }
+                await vscode.env.clipboard.writeText(searchText);
+                await vscode.commands.executeCommand("actions.find");
+                await vscode.commands.executeCommand("editor.action.selectAll");
+                await vscode.commands.executeCommand("execPaste");
+            } else {
+                vscode.window.showErrorMessage('没有匹配的路径');
+            }
+        } else {
+            vscode.window.showErrorMessage('没有找到对应的工作空间');
+        }
+    });
+
     context.subscriptions.push(toggleState);
     context.subscriptions.push(generateState1);
     context.subscriptions.push(generateState2);
@@ -577,4 +746,5 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(enableCssModule);
     context.subscriptions.push(disableCssModule);
     context.subscriptions.push(html_2Component);
+    context.subscriptions.push(html_2Scss);
 }

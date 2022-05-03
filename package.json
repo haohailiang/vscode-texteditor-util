@@ -2,7 +2,7 @@
     "name": "texteditor-util",
     "displayName": "text util",
     "description": "文本处理小工具",
-    "version": "0.0.21",
+    "version": "0.0.22",
     "publisher": "haohailiang",
     "private": true,
     "license": "MIT",
@@ -35,7 +35,8 @@
         "onCommand:texteditor-util.optionalChainingOperator-3",
         "onCommand:texteditor-util.cssModuleType.enable",
         "onCommand:texteditor-util.cssModuleType.disable",
-        "onCommand:texteditor-util.html_2Component"
+        "onCommand:texteditor-util.html_2Component",
+        "onCommand:texteditor-util.html_2Scss"
     ],
     "main": "./out/extension",
     "contributes": {
@@ -119,6 +120,10 @@
             {
                 "command": "texteditor-util.html_2Component",
                 "title": "[texteditor-util] html 2 component"
+            },
+            {
+                "command": "texteditor-util.html_2Scss",
+                "title": "[texteditor-util] html 2 scss"
             }
         ],
         "keybindings": [
