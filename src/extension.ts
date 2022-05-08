@@ -643,6 +643,62 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
+    // 从ui设计稿2个行高和间距计算实际的margin [ui 2 margin]
+    const ui_2Margin = vscode.commands.registerCommand('texteditor-util.ui_2Margin', async function () {
+        const editor = vscode.window.activeTextEditor;
+
+        if (editor) {
+            const document = editor.document;
+            const selection = editor.selection;
+            const selectCss = document.getText(selection);
+
+            if (selectCss) {
+                const moduleStr = selectCss;
+                const moduleStrArr = moduleStr.split(/\n/);
+
+                if (moduleStrArr.length !== 5) {
+                    vscode.window.showErrorMessage('请检查模板的格式');
+                    return;
+                }
+                const [fontSize1, fontSize2, lineHeight1, lineHeight2, margin12] = moduleStrArr;
+                const fontSizeNum1 = Number(fontSize1.split(':')[1]);
+                const fontSizeNum2 = Number(fontSize2.split(':')[1]);
+                const lineHeightNum1 = Number(lineHeight1.split(':')[1]);
+                const lineHeightNum2 = Number(lineHeight2.split(':')[1]);
+                const marginNum12 = Number(margin12.split(':')[1]);
+                const realMargin = (marginNum12 - (lineHeightNum1 + lineHeightNum2 - (fontSizeNum1 + fontSizeNum2)) / 2) / 2;
+
+                if (fontSizeNum1 > lineHeightNum1) {
+                    vscode.window.showErrorMessage('error: [字体大小' + fontSizeNum1 + ']小于[行高' + lineHeightNum1 + ']');
+                    return;
+                }
+                if (fontSizeNum2 > lineHeightNum2) {
+                    vscode.window.showErrorMessage('error: [字体大小' + fontSizeNum2 + ']小于[行高' + lineHeightNum2 + ']');
+                    return;
+                }
+
+                if (realMargin < 0) {
+                    vscode.window.showErrorMessage('error: 实际行间距小于0');
+                    return;
+                }
+
+                editor.edit(editBuilder => {
+                    editBuilder.replace(editor.selection, String(Math.ceil(realMargin)) + 'px');
+                });
+            } else {
+                // 输出模板
+                const moduleStr = `fontSize1: number
+fontSize2: number
+lineHeight1: number
+lineHeight2: number
+margin12: number`;
+                editor.edit(editBuilder => {
+                    editBuilder.replace(editor.selection.active, moduleStr);
+                });
+            }
+        }
+    });
+
     context.subscriptions.push(toggleState);
     context.subscriptions.push(generateState1);
     context.subscriptions.push(generateState2);
@@ -662,4 +718,5 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(optionalChainingOperator3);
     context.subscriptions.push(html_2Component);
     context.subscriptions.push(html_2Scss);
+    context.subscriptions.push(ui_2Margin);
 }
