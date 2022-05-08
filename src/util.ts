@@ -118,6 +118,20 @@ const open = (item: QuickPickItem) => {
 //     return text;
 // };
 
+// 查找精确的类
+const findExactClazz = (localClazz: string, prevClazz: string, fileContent: string) => {
+    if (localClazz) {
+        const isFinded = new RegExp(localClazz, 'g').test(fileContent);
+        if (isFinded) {
+            return localClazz;
+        }
+
+        return prevClazz;
+    }
+
+    return prevClazz;
+};
+
 export default {
     toggleState,
     generateState,
@@ -128,4 +142,5 @@ export default {
     generateQuickPickItem,
     open,
     // handleChangeCase,
+    findExactClazz,
 };

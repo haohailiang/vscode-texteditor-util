@@ -2,7 +2,7 @@
     "name": "texteditor-util",
     "displayName": "text util",
     "description": "文本处理小工具",
-    "version": "0.0.22",
+    "version": "0.1.1",
     "publisher": "haohailiang",
     "private": true,
     "license": "MIT",
@@ -33,8 +33,6 @@
         "onCommand:texteditor-util.optionalChainingOperator-1",
         "onCommand:texteditor-util.optionalChainingOperator-2",
         "onCommand:texteditor-util.optionalChainingOperator-3",
-        "onCommand:texteditor-util.cssModuleType.enable",
-        "onCommand:texteditor-util.cssModuleType.disable",
         "onCommand:texteditor-util.html_2Component",
         "onCommand:texteditor-util.html_2Scss"
     ],
@@ -108,14 +106,6 @@
             {
                 "command": "texteditor-util.optionalChainingOperator-3",
                 "title": "[texteditor-util] optional chaining operator 3 x?.x ?? '-'"
-            },
-            {
-                "command": "texteditor-util.cssModuleType.enable",
-                "title": "[texteditor-util] css module type enable"
-            },
-            {
-                "command": "texteditor-util.cssModuleType.disable",
-                "title": "[texteditor-util] css module type disable"
             },
             {
                 "command": "texteditor-util.html_2Component",
@@ -208,18 +198,7 @@
                 "id": "customChangeCase",
                 "label": "changeCase简单使用"
             }
-        ],
-        "configuration": {
-            "type": "object",
-            "title": "是否是恩丰的移动端项目",
-            "properties": {
-                "texteditor-util-css-module-type.enable": {
-                    "type": "boolean",
-                    "description": "css module格式",
-                    "default": true
-                }
-            }
-        }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
