@@ -394,10 +394,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     // 从html文件定位到组件index.tsx文件 [html 2 component]
     const html_2Component = vscode.commands.registerCommand('texteditor-util.html_2Component', async function () {
-        // standard-process-filter__src-reviewsale-standard-deploy-components-standard-process-filter-scss-index_P63co
-        // progress-wrap__src-components-jzpx-case-detail-components-progress-scss-index_25MxG
-        // case__src-skill-components-common-case-index_q-tPb
         let rawClazz = await vscode.env.clipboard.readText();
+        rawClazz = rawClazz.replace(/[\\+\\]/g, 'a'); // 特殊字符转化
         rawClazz = rawClazz.replace(/\./g, ''); // 类名进行转化
         const rawClazzArr = rawClazz.split(/\s+/);
         const rawClazzArrLen = rawClazzArr.length;
@@ -411,51 +409,12 @@ export function activate(context: vscode.ExtensionContext) {
         // 都过滤成标准的不带scss的文件夹
         elementsClass = elementsClass.replace(tailReg1, '').replace(tailReg2, '');
 
-        const reg = /(?<clazzName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)__src(-(?<partStr1>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+))*-components(-(?<partStr2>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+))*/u;
+        const reg = /(?<clazzName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)__(?<partStr1>(([a-zA-Z0-9]+-)*([a-zA-Z0-9]+)))/u;
         const result = reg.exec(elementsClass);
-        const { clazzName, partStr1, partStr2 } = result?.groups ?? {};
+        const { clazzName, partStr1 } = result?.groups ?? {};
         const part1NameArr = (partStr1 || '').split('-');
-        const part2NameArr = (partStr2 || '').split('-');
-        const part1MaybePathArr = [];
-        const part2MaybePathArr = [];
-        const partAllMaybePathArr = [];
-
-        for(let i = 1; i<= part1NameArr.length; i++) {
-            const first = part1NameArr.slice(0, i).join('-');
-            const second = part1NameArr.slice(i).join('-');
-
-            if (second) {
-                part1MaybePathArr.push(first + '/' + second);
-            } else if (first) {
-                part1MaybePathArr.push(first);
-            }
-        }
-
-        for(let i = 1; i<= part2NameArr.length; i++) {
-            const first = part2NameArr.slice(0, i).join('-');
-            const second = part2NameArr.slice(i).join('-');
-
-            if (second) {
-                part2MaybePathArr.push(first + '/' + second);
-            } else if (first) {
-                part2MaybePathArr.push(first);
-            }
-        }
-
-        if (part1MaybePathArr.length === 0) {
-            for(let j=0; j<part2MaybePathArr.length; j++) {
-                partAllMaybePathArr.push('/src/components/' + part2MaybePathArr[j] + '/index.tsx');
-            }
-        } else if (part1MaybePathArr.length > 0) {
-            for(let i=0; i<part1MaybePathArr.length; i++) {
-                for(let j=0; j<part2MaybePathArr.length; j++) {
-                    partAllMaybePathArr.push('/src/' + part1MaybePathArr[i] + '/components/' + part2MaybePathArr[j] + '/index.tsx');
-                }
-                partAllMaybePathArr.push('/src/' + part1MaybePathArr[i] + '/components/index.tsx');
-            }
-        }
-
-
+        const allPaths = util.getAllMaybePaths(part1NameArr);
+        const partAllMaybePathArr = allPaths.map(v => v + '/index.tsx');
 
         if (!clazzName) {
             vscode.window.showErrorMessage('类名为空');
@@ -523,10 +482,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     // 从html文件定位到组件scss文件 [html 2 scss]
     const html_2Scss = vscode.commands.registerCommand('texteditor-util.html_2Scss', async function () {
-        // standard-process-filter__src-reviewsale-standard-deploy-components-standard-process-filter-scss-index_P63co
-        // progress-wrap__src-components-jzpx-case-detail-components-progress-scss-index_25MxG
-        // case__src-skill-components-common-case-index_q-tPb
         let rawClazz = await vscode.env.clipboard.readText();
+        rawClazz = rawClazz.replace(/[\\+\\]/g, 'a'); // 特殊字符转化
         rawClazz = rawClazz.replace(/\./g, ''); // 类名进行转化
         const rawClazzArr = rawClazz.split(/(\s+)|>/);
         const rawClazzArrLen = rawClazzArr.length;
@@ -540,52 +497,18 @@ export function activate(context: vscode.ExtensionContext) {
         // 都过滤成标准的不带scss的文件夹
         elementsClass = elementsClass.replace(tailReg1, '').replace(tailReg2, '');
 
-        const reg = /(?<clazzName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)__src(-(?<partStr1>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+))*-components(-(?<partStr2>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+))*/u;
+        const reg = /(?<clazzName>([a-zA-Z0-9]+-)*[a-zA-Z0-9]+)__(?<partStr1>(([a-zA-Z0-9]+-)*([a-zA-Z0-9]+)))/u;
         const result = reg.exec(elementsClass);
-        const { clazzName, partStr1, partStr2 } = result?.groups ?? {};
+        const { clazzName, partStr1 } = result?.groups ?? {};
         const part1NameArr = (partStr1 || '').split('-');
-        const part2NameArr = (partStr2 || '').split('-');
-        const part1MaybePathArr = [];
-        const part2MaybePathArr = [];
-        const partAllMaybePathArr = [];
-
-        for(let i = 1; i<= part1NameArr.length; i++) {
-            const first = part1NameArr.slice(0, i).join('-');
-            const second = part1NameArr.slice(i).join('-');
-
-            if (second) {
-                part1MaybePathArr.push(first + '/' + second);
-            } else if (first) {
-                part1MaybePathArr.push(first);
-            }
-        }
-
-        for(let i = 1; i<= part2NameArr.length; i++) {
-            const first = part2NameArr.slice(0, i).join('-');
-            const second = part2NameArr.slice(i).join('-');
-
-            if (second) {
-                part2MaybePathArr.push(first + '/' + second);
-            } else if (first) {
-                part2MaybePathArr.push(first);
-            }
-        }
-
-        if (part1MaybePathArr.length === 0) {
-            for(let j=0; j<part2MaybePathArr.length; j++) {
-                partAllMaybePathArr.push('/src/components/' + part2MaybePathArr[j] + '/index.scss');
-                partAllMaybePathArr.push('/src/components/' + part2MaybePathArr[j] + '/scss/index.scss');
-            }
-        } else if (part1MaybePathArr.length > 0) {
-            for(let i=0; i<part1MaybePathArr.length; i++) {
-                for(let j=0; j<part2MaybePathArr.length; j++) {
-                    partAllMaybePathArr.push('/src/' + part1MaybePathArr[i] + '/components/' + part2MaybePathArr[j] + '/index.scss');
-                    partAllMaybePathArr.push('/src/' + part1MaybePathArr[i] + '/components/' + part2MaybePathArr[j] + '/scss/index.scss');
-                }
-                partAllMaybePathArr.push('/src/' + part1MaybePathArr[i] + '/components/index.scss');
-                partAllMaybePathArr.push('/src/' + part1MaybePathArr[i] + '/components/scss/index.scss');
-            }
-        }
+        const allPaths = util.getAllMaybePaths(part1NameArr);
+        const partAllMaybePathArr = allPaths.reduce((total, cur) => {
+            return [
+                ...total,
+                cur + '/scss/index.scss',
+                cur + '/index.scss',
+            ];
+        }, [] as string[]);
 
 
 

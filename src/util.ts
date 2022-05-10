@@ -132,6 +132,40 @@ const findExactClazz = (localClazz: string, prevClazz: string, fileContent: stri
     return prevClazz;
 };
 
+// 获取数组所有的路径组合
+const getAllMaybePaths = (arr: string[] = []) => {
+    if (arr.length === 0) {
+        return [''];
+    }
+
+    if (arr.length === 1) {
+        return [arr.join('')];
+    }
+
+    const len = arr.length;
+    const num = 2 ** (len - 1);
+    const result = [];
+    // 10进制转化为2进制
+    for (let i=0; i<num; i++) {
+        const binary = i.toString(2);
+        const binaryStr = binary.padStart(len - 1, '0');
+        result.push(binaryStr);
+    }
+    const ret = [];
+    for (let i=0; i<result.length; i++) {
+        let result2 = '/';
+        for(let j=0; j<arr.length; j++) {
+            if (j !== arr.length - 1) {
+                result2 += arr[j] + (result[i][j] === '0' ? '-' : '/');
+            } else {
+                result2 += arr[j];
+            }
+        }
+        ret.push(result2);
+    }
+    return ret;
+};
+
 export default {
     toggleState,
     generateState,
@@ -143,4 +177,5 @@ export default {
     open,
     // handleChangeCase,
     findExactClazz,
+    getAllMaybePaths,
 };
