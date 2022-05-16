@@ -2,7 +2,7 @@
     "name": "texteditor-util",
     "displayName": "text util",
     "description": "文本处理小工具",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "publisher": "haohailiang",
     "private": true,
     "license": "MIT",
@@ -35,7 +35,8 @@
         "onCommand:texteditor-util.optionalChainingOperator-3",
         "onCommand:texteditor-util.html_2Component",
         "onCommand:texteditor-util.html_2Scss",
-        "onCommand:texteditor-util.ui_2Margin"
+        "onCommand:texteditor-util.ui_2Margin",
+        "onStartupFinished"
     ],
     "main": "./out/extension",
     "contributes": {

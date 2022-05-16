@@ -4,6 +4,8 @@ import * as vscode from 'vscode';
 import * as changeCase from 'change-case';
 import * as fg from 'fast-glob';
 import * as fs from 'fs';
+import { StatusbarUiMain } from './statusbar-ui-main';
+import { StatusbarUi } from './statusbar-ui';
 import util from './util';
 import { QuickPickItem } from './typing';
 
@@ -287,18 +289,6 @@ export function activate(context: vscode.ExtensionContext) {
                 });
             }
         }
-    });
-
-    // 开启emmet的功能
-    const enableEmmet = vscode.commands.registerCommand("texteditor-util.emmet.enable", () => {
-        vscode.workspace.getConfiguration("emmet").update("showExpandedAbbreviation", 'always', true);
-        vscode.window.showInformationMessage('emment功能开启');
-    });
-
-    // 关闭emmet的功能
-    const disableEmmet = vscode.commands.registerCommand("texteditor-util.emmet.disable", () => {
-        vscode.workspace.getConfiguration("emmet").update("showExpandedAbbreviation", 'never', true);
-        vscode.window.showInformationMessage('emment功能关闭');
     });
 
     // 可选链操作符-1[剪切板是链式操作符, 选中的是Vdom文本]
@@ -622,6 +612,20 @@ margin12: number`;
         }
     });
 
+    const statusbarUiMain = new StatusbarUiMain();
+    
+    // 开启emmet的功能
+    const enableEmmet = vscode.commands.registerCommand("texteditor-util.emmet.enable", () => {
+        vscode.workspace.getConfiguration("emmet").update("showExpandedAbbreviation", 'always', true);
+        StatusbarUi.showEnable();
+    });
+
+    // 关闭emmet的功能
+    const disableEmmet = vscode.commands.registerCommand("texteditor-util.emmet.disable", () => {
+        vscode.workspace.getConfiguration("emmet").update("showExpandedAbbreviation", 'never', true);
+        StatusbarUi.showDisable();
+    });
+
     context.subscriptions.push(toggleState);
     context.subscriptions.push(generateState1);
     context.subscriptions.push(generateState2);
@@ -634,12 +638,13 @@ margin12: number`;
     context.subscriptions.push(importGrammer7);
     context.subscriptions.push(importGrammer8);
     context.subscriptions.push(requireGrammer);
-    context.subscriptions.push(enableEmmet);
-    context.subscriptions.push(disableEmmet);
     context.subscriptions.push(optionalChainingOperator1);
     context.subscriptions.push(optionalChainingOperator2);
     context.subscriptions.push(optionalChainingOperator3);
     context.subscriptions.push(html_2Component);
     context.subscriptions.push(html_2Scss);
     context.subscriptions.push(ui_2Margin);
+    context.subscriptions.push(enableEmmet);
+    context.subscriptions.push(disableEmmet);
+    context.subscriptions.push(statusbarUiMain);
 }
